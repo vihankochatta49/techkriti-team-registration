@@ -1,4 +1,15 @@
-<%comp.forEach(function(e) {%> <% if(event == "Competitions" ) {%>
-<a href="/<%=e.name%>"><%=e.name%></a><%}else{%>
-<a href="/<%=e.name%>/<%=profile.id%>"><%=e.name%></a>
-<%}%> <%})%>
+<% if(comp.length == 0) {%>
+<% if(workshopDetail == null) {%><form action="/workshopregister/<%= profile.id%>" method="post">
+    <button type="submit">Register</button>
+</form> <%}else {%>
+    <p>Your are already registered for the workshop. Here is your details: </p>
+    <h1>Name: <%=workshopDetail.name%></h1>
+    <p>Email: <%=workshopDetail.email%></p>
+    <p>TechId: <%=workshopDetail.techId%></p>
+    <%}}%>
+
+  <%comp.forEach(function(e) {%> <% if(event == "Competitions" ) {%>
+  <a href="/<%=e.name%>"><%=e.name%></a><%}else{%>
+  <a href="/<%=e.name%>/<%=profile.id%>"><%=e.name%></a>
+  <%}%> <%})%>
+</form>

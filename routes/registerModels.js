@@ -10,7 +10,10 @@ const userSchema = new mongoose.Schema({
   },
   email: String,
   gender: String,
-  techId: String,
+  techId: {
+    type: String,
+    default: this.id,
+  },
   age: Number,
   slugName: String,
   proivder: String,
@@ -20,6 +23,7 @@ userSchema.pre("validate", function (next) {
   if (this.name) {
     this.slugName = slugify(this.name); //slugify user name
   }
+  this.techId = this.id;
   next();
 });
 

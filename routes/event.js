@@ -1,6 +1,7 @@
 const express = require("express");
 const userdb = require("./../routes/registerModels");
 const teamdb = require("./../routes/teamModel");
+const workshopteamdb = require("./../routes/workshopteamModel");
 const { ensureAuthenticated } = require("../config/auth");
 const router = express.Router();
 
@@ -12,10 +13,11 @@ router.get("/events", ensureAuthenticated, (req, res) => {
 });
 
 //competitions route
-router.get("/:event", ensureAuthenticated, (req, res) => {
+router.get("/:event", ensureAuthenticated, async (req, res) => {
   const profile = req.user;
   var comp = [];
   var event = req.params.event;
+  const workshopDetail = await workshopteamdb.findOne({ id: profile.id });
   if (req.params.event == "Competitions") {
     comp = [
       { name: "Technology" },
@@ -43,7 +45,7 @@ router.get("/:event", ensureAuthenticated, (req, res) => {
       { name: "MODEL UNITED NATIONS" },
     ];
   }
-  res.render("Competitions", { profile, comp, event });
+  res.render("Competitions", { profile, comp, event, workshopDetail });
 });
 
 router.get("/:events/:id", ensureAuthenticated, async (req, res) => {
@@ -89,6 +91,24 @@ router.post("/teamregister/:event/:id", (req, res) => {
       if (!flag) {
         const teamData = await teamdb.insertMany([apprec]);
       }
+      res.redirect("/feed");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  createDoc();
+});
+
+router.post("/workshopregister/:id", (req, res) => {
+  const createDoc = async () => {
+    try {
+      const userDetail = await userdb.findOne({ id: req.params.id });
+      const apprec = new workshopteamdb({
+        name: userDetail.name,
+        techId: req.params.id,
+        email: userDetail.email,
+      });
+      const teamData = await workshopteamdb.insertMany([apprec]);
       res.redirect("/feed");
     } catch (err) {
       console.log(err);
