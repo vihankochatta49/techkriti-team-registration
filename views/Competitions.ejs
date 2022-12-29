@@ -1,0 +1,4 @@
+<%comp.forEach(function(e) {%> <% if(event == "Competitions" ) {%>
+<a href="/<%=e.name%>"><%=e.name%></a><%}else{%>
+<a href="/<%=e.name%>/<%=profile.id%>"><%=e.name%></a>
+<%}%> <%})%>

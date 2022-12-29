@@ -1,0 +1,26 @@
+<% if(teamDetail.length == 0) {%>
+<form action="/teamregister/<%= x.event %>/<%= x.id %>" method="post">
+  <input type="text" placeholder="team-name" name="teamName" />
+  <input
+    type="text"
+    placeholder="leader-name"
+    name="leaderName"
+    value="<%= x.name %>"
+    disabled
+  />
+  <input type="text" placeholder="member-name" name="memberName" />
+  <input type="text" placeholder="member-techId" name="memberTechId" />
+  <input
+    type="text"
+    placeholder="competitions"
+    name="competitions"
+    value="<%= x.event%>"
+    disabled
+  />
+  <button type="submit">submit</button>
+</form>
+<%}%> <% if(teamDetail != null) {%> <% teamDetail.forEach(function(e) {%>
+<h1>Team name: <%= e.teamName %></h1>
+<p>Leader name: <%= e.leaderName %></p>
+<p>competition: <%= e.competitions %></p>
+<%})%> <%}%>
